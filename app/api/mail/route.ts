@@ -4,28 +4,42 @@ import WelcomeTemplate from "../../../emails";
 
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
-import { Redis } from "@upstash/redis";
-import { Ratelimit } from "@upstash/ratelimit";
+import Redis from "ioredis";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN,
-});
+const redis = (() => {
+  if (!process.env.REDIS_URL) {
+    throw new Error("Missing REDIS_URL environment variable");
+  }
 
-const ratelimit = new Ratelimit({
-  redis,
-  // 2 requests per minute from the same IP address in a sliding window of 1 minute duration which means that the window slides forward every second and the rate limit is reset every minute for each IP address.
-  limiter: Ratelimit.slidingWindow(2, "1 m"),
-});
+  return new Redis(process.env.REDIS_URL);
+})();
 
-export async function POST(request: NextRequest, response: NextResponse) {
+const RATE_LIMIT_MAX_REQUESTS = 2;
+const RATE_LIMIT_WINDOW_SECONDS = 60;
+
+async function isRateLimited(identifier: string) {
+  try {
+    const key = `ratelimit:${identifier}`;
+    const requestCount = await redis.incr(key);
+
+    if (requestCount === 1) {
+      await redis.expire(key, RATE_LIMIT_WINDOW_SECONDS);
+    }
+
+    return requestCount > RATE_LIMIT_MAX_REQUESTS;
+  } catch (error) {
+    console.error("[redis] Failed to perform rate-limit check", error);
+    return false;
+  }
+}
+
+export async function POST(request: NextRequest) {
   const ip = request.ip ?? "127.0.0.1";
 
-  const result = await ratelimit.limit(ip);
-
-  if (!result.success) {
+  const limited = await isRateLimited(ip);
+  if (limited) {
     return Response.json(
       {
         error: "Too many requests!!",
@@ -43,7 +57,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
     to: [email],
     subject: "Thankyou for wailisting the Next.js + Notion CMS template!",
     reply_to: "lakshb.work@gmail.com",
-    html:  await render(WelcomeTemplate({ userFirstname: firstname })),
+    html: await render(WelcomeTemplate({ userFirstname: firstname })),
   });
 
   // const { data, error } = { data: true, error: null }
