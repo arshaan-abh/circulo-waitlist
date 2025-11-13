@@ -24,8 +24,8 @@ export const CirculoWaitlistEmail = ({ userFirstname }: EmailProps) => (
       <Container style={container}>
         <Img
           src="https://early.circulo-ai.com/logo.png"
-          width="220"
-          height="100"
+          width="512"
+          height="512"
           alt="Circulo logo"
           style={logo}
         />
@@ -67,24 +67,25 @@ export const CirculoWaitlistEmail = ({ userFirstname }: EmailProps) => (
 
         <Text style={paragraph}>
           Just reply directly to{" "}
-          <a href="mailto:hello@circulo.app" style={link}>
-            hello@circulo.app
+          <a href="mailto:contact@circulo-ai.com" style={link}>
+            contact@circulo-ai.com
           </a>{" "}
           — we read every response.
         </Text>
 
         <Text style={paragraph}>
-          Want to follow the behind-the-scenes progress? You can also find us on
-          X:{" "}
-          <a href="https://x.com/yourcirculo" style={link}>
-            @yourcirculo
+          Want to follow the behind-the-scenes progress? You can also find us on{" "}
+          <a
+            href="https://www.linkedin.com/company/circulo-ai-com/"
+            style={link}>
+            LinkedIn
           </a>
         </Text>
 
         <Text style={signOff}>
           Talk soon,
           <br />
-          The Circulo team
+          The Circulo Team
         </Text>
 
         <Hr style={hr} />

@@ -7,9 +7,9 @@ import { Analytics } from "@vercel/analytics/react";
 const FigtreeFont = Figtree({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Next.js + Notion — Waitlist Template",
+  title: "Circulo | The Next-Generation Multi-Agent Platform",
   description:
-    "A simple Next.js waitlist template with Notion as CMS and Resend to send emails created with React Email and Redis (via ioredis) for rate limiting. Deployed on Vercel.",
+    "Unlock early access to Circulo, the AI platform where multiple intelligent agents collaborate, debate, and co-create ideas with you. Join now and be among the first to experience a smarter, more dynamic way to think, plan, and build.",
 };
 
 export default function RootLayout({
@@ -27,10 +27,7 @@ export default function RootLayout({
         property="og:site_name"
         content="Next.js + Notion — Waitlist Template"
       />
-      <meta
-        property="og:url"
-        content="https://nextjs-notion-waitlist.vercel.app/"
-      />
+      <meta property="og:url" content="https://early.circulo-ai.com/" />
       <meta name="twitter:image" content="/twitter-image.png" />
       <meta name="twitter:image:type" content="image/png" />
       <meta name="twitter:image:width" content="1280" />

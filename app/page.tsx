@@ -108,7 +108,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center overflow-x-clip pt-12 md:pt-24">
+    <main className="main-section flex flex-col items-center overflow-x-clip pt-12 md:pt-24">
       <div className="fixed -inset-16">
         <LiquidEther />
       </div>

@@ -80,3 +80,21 @@ body {
     @apply bg-accent text-yellow-200;
   }
 }
+
+@layer utilities {
+  .main-section:not(:first-of-type) {
+    height: 100vh;
+  }
+  .main-section:first-of-type {
+    height: calc(100vh - 5rem);
+  }
+
+  @supports (height: 100lvh) {
+    .main-section:not(:first-of-type) {
+      height: 100lvh;
+    }
+    .main-section:first-of-type {
+      height: calc(100lvh - 5rem);
+    }
+  }
+}
