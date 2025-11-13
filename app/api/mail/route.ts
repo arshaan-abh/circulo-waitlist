@@ -1,6 +1,6 @@
 import { render } from "@react-email/render";
 
-import WelcomeTemplate from "../../../emails";
+import { CirculoWaitlistEmail } from "../../../emails";
 
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
@@ -53,11 +53,11 @@ export async function POST(request: NextRequest) {
   const { email, firstname } = await request.json();
 
   const { data, error } = await resend.emails.send({
-    from: "Lakshay<hello@waitlist.lakshb.dev>",
+    from: "Circulo<contact@circulo-ai.com>",
     to: [email],
-    subject: "Thankyou for wailisting the Next.js + Notion CMS template!",
-    reply_to: "lakshb.work@gmail.com",
-    html: await render(WelcomeTemplate({ userFirstname: firstname })),
+    subject: "Welcome to Circulo — You're officially on the early access list",
+    reply_to: "contact@circulo-ai.com",
+    html: await render(CirculoWaitlistEmail({ userFirstname: firstname })),
   });
 
   // const { data, error } = { data: true, error: null }

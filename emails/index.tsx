@@ -14,110 +14,151 @@ interface EmailProps {
   userFirstname: string;
 }
 
-export const NotionWaitlistEmail = ({ userFirstname }: EmailProps) => (
+export const CirculoWaitlistEmail = ({ userFirstname }: EmailProps) => (
   <Html>
     <Head />
-    <Preview>Thanks for Joining the Waitlist, {userFirstname}! 🎉</Preview>
+    <Preview>
+      You&apos;re in! Welcome to the Circulo early access list 👋
+    </Preview>
     <Body style={main}>
       <Container style={container}>
         <Img
-          src={`https://nextjs-notion-waitlist.vercel.app/waitlist-logo.png`}
+          src="https://early.circulo-ai.com/logo.png"
           width="220"
           height="100"
-          alt="Notion Waitlist Logo"
+          alt="Circulo logo"
           style={logo}
         />
-        <Text style={greeting}>Hi {userFirstname},</Text>
+
+        <Text style={greeting}>Hey {userFirstname},</Text>
+
         <Text style={paragraph}>
-          Thanks for joining the waitlist for our Next.js + Notion CMS waitlist
-          template! I'm Lakshay, the developer behind this project. I'm glad to
-          have you on board.
+          You&apos;re officially on the early access list for{" "}
+          <strong>Circulo</strong> — our AI-powered space for rich, multi-voice
+          conversations with specialized agents. We&apos;re excited to have you
+          with us. 🚀
         </Text>
+
         <Text style={paragraph}>
-          I'll keep you posted on the progress and notify you as soon as it's
-          ready for you to use. In the meantime, if you have any questions or
-          feedback, don't hesitate to reach out by replying directly to{" "}
-          <a href="mailto:lakshb.work@gmail.com" style={link}>
-            this email {""}
-          </a>
-          — I'm here to listen!
-        </Text>
-        <Text style={paragraph}>
-          You can also follow me on X/Twitter for updates:{" "}
-          <a href="https://x.com/blakssh" style={link}>
-            @blakssh
-          </a>
-        </Text>
-        <Text style={signOff}>
-          Best regards,
+          Circulo is designed to help you think better, faster — whether
+          you&apos;re:
           <br />
-          Lakshay
+          • Exploring ideas from multiple expert perspectives
+          <br />
+          • Stress-testing decisions before you commit
+          <br />• Turning scattered thoughts into clear next steps
         </Text>
+
+        <Text style={paragraph}>
+          Over the next few weeks, we&apos;ll be inviting people in small
+          batches. When it&apos;s your turn, you&apos;ll get a unique access
+          link straight to this inbox.
+        </Text>
+
+        <Text style={paragraph}>
+          To help us shape Circulo around what you actually need, you can hit
+          reply and tell us:
+          <br />
+          • What you&apos;d mainly use Circulo for
+          <br />
+          • Your role or focus (founder, student, designer, etc.)
+          <br />• One “dream use case” you&apos;d love to unlock
+        </Text>
+
+        <Text style={paragraph}>
+          Just reply directly to{" "}
+          <a href="mailto:hello@circulo.app" style={link}>
+            hello@circulo.app
+          </a>{" "}
+          — we read every response.
+        </Text>
+
+        <Text style={paragraph}>
+          Want to follow the behind-the-scenes progress? You can also find us on
+          X:{" "}
+          <a href="https://x.com/yourcirculo" style={link}>
+            @yourcirculo
+          </a>
+        </Text>
+
+        <Text style={signOff}>
+          Talk soon,
+          <br />
+          The Circulo team
+        </Text>
+
         <Hr style={hr} />
+
         <Text style={footer}>
-          You received this email because you signed up for the Notion waitlist.
-          If you believe this is a mistake, feel free to ignore this email.
+          You&apos;re receiving this email because you joined the Circulo
+          waitlist. If this wasn&apos;t you, you can safely ignore this email
+          and no further action is needed.
         </Text>
       </Container>
     </Body>
   </Html>
 );
 
-NotionWaitlistEmail.PreviewProps = {
+CirculoWaitlistEmail.PreviewProps = {
   userFirstname: "Tyler",
 } as EmailProps;
 
-export default NotionWaitlistEmail;
-
 const main = {
-  background: "linear-gradient(-225deg, #FFE29F 0%, #FFA99F 48%, #FF719A 100%)",
+  background: "linear-gradient(-225deg, #0f172a 0%, #020617 40%, #020617 100%)",
   fontFamily: 'figtree, "Helvetica Neue", Helvetica, Arial, sans-serif',
   padding: "40px 0",
-  color: "#cccccc",
+  color: "#f9fafb",
 };
 
 const container = {
   margin: "0 auto",
-  padding: "24px 32px 48px",
-  backgroundColor: "#1a1a1a",
-  borderRadius: "12px",
-  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+  padding: "24px 32px 40px",
+  backgroundColor: "#020617",
+  borderRadius: "16px",
+  boxShadow: "0 18px 45px rgba(0, 0, 0, 0.45)",
   maxWidth: "600px",
+  border: "1px solid rgba(148, 163, 184, 0.25)",
 };
 
 const logo = {
   margin: "0 auto",
-  paddingBottom: "20px",
+  paddingBottom: "24px",
+  display: "block",
 };
 
 const greeting = {
   fontSize: "18px",
   lineHeight: "28px",
-};
+  marginBottom: "12px",
+  color: "#e5e7eb",
+} as const;
 
 const paragraph = {
-  fontSize: "16px",
-  lineHeight: "26px",
-  marginBottom: "20px",
-};
+  fontSize: "15px",
+  lineHeight: "24px",
+  marginBottom: "18px",
+  color: "#cbd5f5",
+} as const;
 
 const link = {
-  color: "#F7FF9B",
+  color: "#a5b4fc",
   textDecoration: "underline",
-};
+} as const;
 
 const signOff = {
-  fontSize: "16px",
-  lineHeight: "26px",
-  marginTop: "20px",
-};
+  fontSize: "15px",
+  lineHeight: "24px",
+  marginTop: "24px",
+  color: "#e5e7eb",
+} as const;
 
 const hr = {
-  borderColor: "#cccccc",
-  margin: "20px 0",
-};
+  borderColor: "#1f2937",
+  margin: "24px 0 16px",
+} as const;
 
 const footer = {
-  color: "#8c8c8c",
+  color: "#6b7280",
   fontSize: "12px",
-};
+  lineHeight: "18px",
+} as const;
