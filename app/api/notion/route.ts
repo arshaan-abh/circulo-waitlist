@@ -1,39 +1,35 @@
-import { Client } from "@notionhq/client";
 import { NextResponse } from "next/server";
+import { db } from "@/lib/db";
+import { subscribers } from "@/lib/db/schema";
 
 export async function POST(request: Request) {
   const body = await request.json();
+  
   try {
-    const notion = new Client({ auth: process.env.NOTION_SECRET });
-    const response = await notion.pages.create({
-      parent: {
-        database_id: `${process.env.NOTION_DB}`,
-      },
-      properties: {
-        Email: {
-          type: "email",
-          email: body?.email,
-        },
-        Name: {
-          type: "title",
-          title: [
-            {
-              type: "text",
-              text: {
-                content: body?.name,
-              },
-            },
-          ],
-        },
-      },
-    });
+    const result = await db.insert(subscribers).values({
+      name: body?.name,
+      email: body?.email,
+    }).returning();
 
-    if (!response) {
-      throw new Error("Failed to add email to Notion");
+    if (!result || result.length === 0) {
+      throw new Error("Failed to add subscriber to database");
     }
 
-    return NextResponse.json({ success: true }, { status: 200 });
+    return NextResponse.json({ success: true, data: result[0] }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ success: false }, { status: 500 });
+    console.error("Database error:", error);
+    
+    // Handle unique constraint violation (duplicate email)
+    if (error instanceof Error && error.message.includes("unique")) {
+      return NextResponse.json(
+        { success: false, error: "Email already exists" },
+        { status: 409 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: false, error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
