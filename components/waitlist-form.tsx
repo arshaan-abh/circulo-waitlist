@@ -56,8 +56,8 @@ export function WaitlistForm() {
           return; // Exit the promise early if mail sending fails
         }
 
-        // If email sending is successful, proceed to insert into Notion
-        const notionResponse = await fetch("/api/notion", {
+        // If email sending is successful, proceed to insert into Drizzle
+        const drizzleResponse = await fetch("/api/subscribe", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -65,11 +65,11 @@ export function WaitlistForm() {
           body: JSON.stringify({ name, email }),
         });
 
-        if (!notionResponse.ok) {
-          if (notionResponse.status === 429) {
+        if (!drizzleResponse.ok) {
+          if (drizzleResponse.status === 429) {
             reject("Rate limited");
           } else {
-            reject("Notion insertion failed");
+            reject("Drizzle insertion failed");
           }
         } else {
           resolve({ name });
@@ -91,7 +91,7 @@ export function WaitlistForm() {
           return "You're doing that too much. Please try again later";
         } else if (error === "Email sending failed") {
           return "Failed to send email. Please try again 😢.";
-        } else if (error === "Notion insertion failed") {
+        } else if (error === "Drizzle insertion failed") {
           return "Failed to save your details. Please try again 😢.";
         }
         return "An error occurred. Please try again 😢.";

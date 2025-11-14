@@ -7,12 +7,13 @@ import { Analytics } from "@vercel/analytics/react";
 const FigtreeFont = Figtree({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://early.circulo-ai.com"),
   title: "Circulo | The Next-Generation Multi-Agent Platform",
   description:
     "Unlock early access to Circulo, the AI platform where multiple intelligent agents collaborate, debate, and co-create ideas with you. Join now and be among the first to experience a smarter, more dynamic way to think, plan, and build.",
   openGraph: {
     url: "https://early.circulo-ai.com/",
-    siteName: "Next.js + Notion — Waitlist Template",
+    siteName: "Circulo | The Next-Generation Multi-Agent Platform",
     images: [
       {
         url: "/opengraph-image.png",
