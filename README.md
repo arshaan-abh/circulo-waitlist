@@ -1,116 +1,107 @@
-<h1 align="center">Next.js + Notion — Wailtist Template</h1>
+# Circulo Waitlist
 
-<p align="center">
-
-<img src ="https://img.shields.io/badge/Next.js-000000.svg?style=for-the-badge&logo=nextdotjs&logoColor=white">
-<img src ="https://img.shields.io/badge/ioredis-DC382D.svg?style=for-the-badge&logo=redis&logoColor=white">
-<img src ="https://img.shields.io/badge/Notion-000000.svg?style=for-the-badge&logo=Notion&logoColor=white">
-<img src ="https://img.shields.io/badge/Resend-000000.svg?style=for-the-badge&logo=Resend&logoColor=white">
-<img src ="https://img.shields.io/badge/shadcn/ui-000000.svg?style=for-the-badge&logo=shadcn/ui&logoColor=white">
-<img src ="https://img.shields.io/badge/Vercel-000000.svg?style=for-the-badge&logo=Vercel&logoColor=white">
-
-</p>
-
-![GithubBanner](./app/opengraph-image.png)
-
-This is a template repository for creating a waitlist using Next.js 14, Notion as a CMS, Redis (via ioredis) for rate limiting and Resend for sending emails with a custom domain.
-
-The UI is built using a mix of shadcn/ui, Magic UI and Tailwind CSS.
-
-**Demo:** [https://nextjs-notion-waitlist.vercel.app](https://nextjs-notion-waitlist.vercel.app)
-
-**Sample Database** ([Link](https://lakshaybhushan.notion.site/15e45b25609e80408f83ebb97b45882b?v=c949c24dff4a42b3baa31bfb3e8a3354))
-<a href="https://lakshaybhushan.notion.site/15e45b25609e80408f83ebb97b45882b?v=c949c24dff4a42b3baa31bfb3e8a3354" target="_blank" rel="noopener noreferrer">
-<img src ="./public/sample-db.png">
-</a>
+Circulo Waitlist is a polished Next.js 14 landing page for collecting early-access signups for Circulo, “your personal circle of AI minds.” It combines a motion-rich hero section, a Redis rate-limited waitlist form, and backend actions that pipe submissions to both Notion and an automated Resend email sequence.
 
 ## Features
 
-- **Next.js 14**: The most popular React framework.
-- **Notion as a CMS**: Use Notion to manage your waitlist users.
-- **Redis (ioredis)**: Use any Redis instance through ioredis to rate limit the number of signups in a given time period.
-- **Resend**: Use Resend to send emails to users who sign up.
-- **Vercel**: Deploy the app to Vercel with a single click.
-- **shadcn/ui**: Use shadcn/ui for building the UI components.
+- Animated hero powered by Framer Motion plus the custom `LiquidEther` background shader.
+- Waitlist form with validation, optimistic toasts (Sonner), and CTA copy tailored to Circulo’s value proposition.
+- `/api/notion` route persists each signup into the configured Notion database.
+- `/api/mail` route renders the React Email template and delivers it through Resend, with Redis-based rate limiting.
+- Email template (`emails/index.tsx`) built with `@react-email/components` for consistent welcome messages.
 
-## Why Notion?
+## Tech Stack
 
-Notion is used everywhere nowadays. It's a great tool for managing content and it's free to use. But a lot of people don't know that they can use Notion as a CMS for their websites which stands for Content Management System. This template is a very basic implementation of using Notion as a CMS for a waitlist.
+- Next.js 14 (App Router) & React 18
+- Tailwind CSS with custom UI primitives
+- Framer Motion for staggered animations
+- Notion SDK (`@notionhq/client`) for persistence
+- Resend + React Email for transactional emails
+- Redis (via `ioredis`) for rate limiting
 
-However, You can extend it to use Notion for other types of content as well. Using Notion as a CMS is a great way to manage content without having to build a backend or a database. You can use Notion's API to fetch data from your Notion workspace and display it on your website.
+## Getting Started
 
-## How to get started?
+### 1. Prerequisites
 
-There are a few things you need to do before you can use this template:
+- Node.js 18+ or Bun 1.1+
+- Redis instance (Upstash or self-hosted)
+- A Notion database + integration token
+- Resend account + API key
 
-### Notion
-
-Assuming that you have a Notion account and a workspace, you can create a new database in your workspace and add the following columns:
-
-- **Name**: Title
-- **Email**: Email
-
-Now you need to get the `SECRET` key for your workspace. You can create an internal integration and get the secret from the [Notion Integrations page](https://www.notion.so/my-integrations). You will need this key to fetch data from your workspace.
-
-Now you need to get the ID of the database you created. You can get it from the URL of the database. It will look something like this:
-
-`https://www.notion.so/{DATABASE_ID}?v={NUMBERS}`
-
-You need to copy the `DATABASE_ID` from the URL.
-
-### Redis (ioredis)
-
-Provision a Redis instance (Upstash, Redis Cloud, self-hosted, etc.) and grab a standard connection string like `redis://user:password@host:port/db`. Set that value as the `REDIS_URL` environment variable so the API route can connect via ioredis.
-
-### Resend
-
-You need to sign up for a Resend account if not already. Then you need to add your domain and verify the DNS records. Once you have done that, you can generate an API key from the Resend dashboard which you will need to send emails.
-
-## Building with this template
-
-There are two ways to use this template:
-
-1. **Deploy to Vercel**: Click the button below to deploy this template to Vercel with a single click.
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Flakshaybhushan%2Fnextjs-notion-waitlist-template&env=NOTION_SECRET,NOTION_DB,RESEND_API_KEY,REDIS_URL)
-
-The above button will create a new Vercel project and clone this repository into your GitHub account. You will need to provide the following environment variables:
-
-- `NOTION_SECRET`: Your Notion secret key.
-- `NOTION_DB`: The ID of the Notion database you want to use.
-- `RESEND_API_KEY`: Your Resend API key.
-- `REDIS_URL`: Connection string for the Redis instance handling rate limiting.
-
-2. **Manual Setup**: Fork this repository and clone it to your local machine.
-
-Install the dependencies, this project uses `bun` as a package manager:
+### 2. Install dependencies
 
 ```bash
+# with Bun (recommended)
 bun install
+
+# or with npm
+npm install
 ```
 
-Run the development server:
+### 3. Configure environment
+
+Create `.env.local` in the project root:
+
+| Variable         | Description                                                                        |
+| ---------------- | ---------------------------------------------------------------------------------- |
+| `NOTION_SECRET`  | Internal integration token with access to your waitlist database.                  |
+| `NOTION_DB`      | ID of the Notion database that will store signups.                                 |
+| `RESEND_API_KEY` | API key from the Resend dashboard.                                                 |
+| `REDIS_URL`      | Connection string to your Redis instance (used for rate limiting the email route). |
+
+> Tip: When copying the Notion database ID, remove dashes and keep the 32-character string.
+
+### 4. Run the app
 
 ```bash
 bun dev
+# or
+npm run dev
 ```
 
-To run the email server:
+Visit `http://localhost:3000` to see the waitlist page. Submitting the form will hit both API routes, so ensure your environment variables point to test-friendly services.
+
+## Email template development
+
+Use the bundled script to iterate on the React Email template with hot reload:
 
 ```bash
-bun email
+bun run email
+# or npm run email
 ```
 
-Create a `.env.local` file in the root of the project and add the environment variables mentioned above (see `.env.example` for reference).
+This launches the `email dev` preview environment where you can tweak `emails/index.tsx`.
 
-## License
+## Useful scripts
 
-You can use this template for personal or commercial projects. You can modify it as you like.
+| Script                            | Description                           |
+| --------------------------------- | ------------------------------------- |
+| `bun dev` / `npm run dev`         | Start the Next.js development server. |
+| `bun run build` / `npm run build` | Create a production build.            |
+| `bun run start` / `npm run start` | Serve the production build.           |
+| `bun run lint` / `npm run lint`   | Run ESLint checks.                    |
+| `bun run email` / `npm run email` | Preview the React Email template.     |
 
-However, if you use this template for commercial projects, please consider [buying me a coffee](https://www.buymeacoffee.com/lakshaybhushan) or sponsoring me on GitHub. It will help me to keep creating more templates like this.
+## Project structure
 
-<a href="https://www.buymeacoffee.com/lakshaybhushan" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="50" width="200"></a>
+```
+app/
+  api/
+    mail/route.ts      # Resend + Redis rate-limited email endpoint
+    notion/route.ts    # Notion persistence endpoint
+  page.tsx             # Landing page entry
+components/
+  form.tsx, waitlist-form.tsx, cta.tsx, header.tsx, liquid-ether.tsx
+emails/index.tsx       # Circulo welcome email
+lib/animation-variants.ts
+public/logo.svg
+```
 
----
+## Deployment
 
-If you have any questions or need help with this template, feel free to reach out to me on [Twitter](https://x.com/blakssh) or leave a comment on this repository.
+1. Build the project (`bun run build`).
+2. Provide the same environment variables in your hosting platform (Vercel, Netlify, etc.).
+3. Ensure your Redis instance is reachable from the deployment environment.
+4. Verify that the Notion integration still has access to the production database and that Resend is configured for the sending domain (`contact@circulo-ai.com` in this template).
+
+Once deployed, submissions will automatically be stored in Notion and send the welcome email, so you can safely share the waitlist URL.

@@ -10,7 +10,7 @@ export default function Home() {
         <LiquidEther colors={["#f0fdfa", "#cbfbf1", "#ecfcca"]} />
       </div>
 
-      <section className="flex flex-col items-center px-4 sm:px-6 lg:px-8">
+      <section className="flex h-full flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
         <Header />
 
         <CTA />
