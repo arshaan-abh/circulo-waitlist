@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
     from: "Circulo<contact@circulo-ai.com>",
     to: [email],
     subject: "Welcome to Circulo — You're officially on the early access list",
-    reply_to: "contact@circulo-ai.com",
+    replyTo: "contact@circulo-ai.com",
     html: await render(CirculoWaitlistEmail({ userFirstname: firstname })),
   });
 
